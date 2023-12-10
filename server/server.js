@@ -1,9 +1,9 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
-const db = require('../config/connection'); // Adjusted path
-const { typeDefs, resolvers } = require('../schemas'); // Adjusted path
-const authMiddleware = require('../utils/auth'); // Adjusted path
+const db = require('./config/connection'); // Adjusted path
+const { typeDefs, resolvers } = require('./schemas'); // Adjusted path
+const authMiddleware = require('./utils/auth'); // Adjusted path
 const helmet = require('helmet'); // Import helmet
 
 const app = express();
