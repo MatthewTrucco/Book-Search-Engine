@@ -16,23 +16,23 @@ const server = new ApolloServer({
   context: authMiddleware
 });
 
-// Helmet middleware to set CSP
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "<URLs where scripts are hosted>"],
-      styleSrc: ["'self'", "'unsafe-inline'", "<URLs where styles are hosted>"],
-      imgSrc: ["'self'", "<URLs where images are hosted>"],
-      connectSrc: ["'self'", "<URLs for APIs>"],
-      fontSrc: ["'self'", "<URLs where fonts are hosted>"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'self'"],
-      // Add other directives as needed
-    },
-  })
-);
+
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: ["'self'", "<URLs where scripts are hosted>"],
+//       styleSrc: ["'self'", "'unsafe-inline'", "<URLs where styles are hosted>"],
+//       imgSrc: ["'self'", "<URLs where images are hosted>"],
+//       connectSrc: ["'self'", "<URLs for APIs>"],
+//       fontSrc: ["'self'", "<URLs where fonts are hosted>"],
+//       objectSrc: ["'none'"],
+//       mediaSrc: ["'self'"],
+//       frameSrc: ["'self'"],
+      
+//     },
+//   })
+// );//
 
 // Body parser middleware
 app.use(express.urlencoded({ extended: true }));
