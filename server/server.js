@@ -20,18 +20,17 @@ const server = new ApolloServer({
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"], // default to self for all content
-      scriptSrc: ["'self'", 'https://trusted-script-source.com'], // Allow scripts from these sources
-      styleSrc: ["'self'", 'https://trusted-style-source.com', "'unsafe-inline'"], // Allow styles from these sources
-      imgSrc: ["'self'", 'https://trusted-image-source.com'], // Allow images from these sources
-      connectSrc: ["'self'", 'https://trusted-api-source.com'], // Allow connections to these sources for XHR, WebSockets, and EventSource
-      fontSrc: ["'self'", 'https://trusted-font-source.com'], // Allow fonts from these sources
-      objectSrc: ["'none'"], // Allow plugins (Flash, Silverlight, etc.)
-      mediaSrc: ["'self'"], // Allow media from self
-      frameSrc: ["'self'"], // Allow iFrames from self
-      // Add additional directives as needed
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "<URLs where scripts are hosted>"],
+      styleSrc: ["'self'", "'unsafe-inline'", "<URLs where styles are hosted>"],
+      imgSrc: ["'self'", "<URLs where images are hosted>"],
+      connectSrc: ["'self'", "<URLs for APIs>"],
+      fontSrc: ["'self'", "<URLs where fonts are hosted>"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'self'"],
+      // Add other directives as needed
     },
-    reportOnly: false, // Set to true if you want to only report violations
   })
 );
 
@@ -39,10 +38,21 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve static files from the React app in production
+// Serve static files from the 'dist' directory in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, 'dist')));
 }
+
+// Favicon handling (if you have a favicon.ico, place it in the 'dist' folder)
+app.get('/favicon.ico', (req, res) => {
+  // Send a 204 No Content status if you don't have a favicon.ico
+  res.status(204).send();
+});
+
+// Catch-all route to serve the main index.html file
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
 
 // Start Apollo Server
 async function startApolloServer() {
